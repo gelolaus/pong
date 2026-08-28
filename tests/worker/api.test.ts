@@ -90,6 +90,32 @@ describe("Worker API", () => {
     });
   });
 
+  it("returns the bundled event quiz when Turso listing fails", async () => {
+    const app = createApp({
+      repository: {
+        ...createMemoryRepository(),
+        async listQuizzes() {
+          throw new Error("no such table: quizzes");
+        },
+      },
+    });
+    const env = testEnv();
+    const fixture = await app.fetch(new Request("http://localhost/api/test/host-session", { method: "POST" }), env);
+    const cookie = fixture.headers.get("set-cookie") ?? "";
+
+    const quizzes = await app.fetch(new Request("http://localhost/api/quizzes", {
+      headers: { cookie },
+    }), env);
+    const body = await quizzes.json() as { quizzes: Array<{ id: string; title: string; questionCount: number }> };
+
+    expect(quizzes.status).toBe(200);
+    expect(body.quizzes).toEqual([{
+      id: eventQuiz.id,
+      title: eventQuiz.title,
+      questionCount: eventQuiz.questions.length,
+    }]);
+  });
+
   it("hides test fixtures when PONG_TEST_MODE is not enabled", async () => {
     const app = createApp({ repository: createMemoryRepository() });
     const env = testEnv({ PONG_TEST_MODE: "0" });

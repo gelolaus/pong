@@ -16,6 +16,9 @@
     "PongRoom": { "type": "durable-object", "storage": "sqlite" }
   },
   "observability": { "enabled": true },
+  "routes": [
+    { "pattern": "pong.gelolaus.com", "custom_domain": true }
+  ],
   "vars": {
     "PONG_TEST_MODE": "0"
   }

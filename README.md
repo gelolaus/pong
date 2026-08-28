@@ -23,10 +23,11 @@ Required `.dev.vars` names (never commit real values):
 - `TURSO_AUTH_TOKEN`
 - `PONG_TEST_MODE` (`0` in production)
 
-Google callback URL:
+Google callback URLs (same OAuth client, both listed):
 
 ```text
 http://localhost:5173/api/auth/google/callback
+https://pong.gelolaus.com/api/auth/google/callback
 ```
 
 ## Database
@@ -62,13 +63,18 @@ The script opens 200 WebSocket clients in batches of 20, joins one disposable ro
 
 ## Deploy
 
-1. Authenticate Wrangler to the intended Cloudflare account.
-2. Create the Pong Turso database and token.
-3. Set Cloudflare secrets: `AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`, `AUTH_SECRET`, `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`.
-4. Add the deployed `/api/auth/google/callback` URL to the Google OAuth client.
-5. Run `npm run db:seed` against that database.
-6. Run `npm run deploy` only after the operator approves publishing.
-7. Smoke-test `/`, `/host`, `/display/:code`, and a 200-client load run against a disposable room.
+Production hostname is `pong.gelolaus.com`. `gelolaus.com` must already be a zone in the same Cloudflare account Wrangler uses. Deploy creates the `pong` DNS record and certificate.
+
+```bash
+npx wrangler login
+npx wrangler secret bulk .dev.vars
+npm run db:seed
+npm run deploy
+```
+
+Fill `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in `.dev.vars` before `secret bulk`. Wrangler vars already keep `PONG_TEST_MODE=0`. Add `https://pong.gelolaus.com/api/auth/google/callback` on the Google OAuth client before signing in at `/host`.
+
+Then smoke-test `/`, `/host`, `/display/:code`, and a 200-client load run against a disposable room.
 
 Keep local Wrangler as the venue fallback if deployment is blocked.
 

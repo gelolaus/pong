@@ -129,6 +129,15 @@ export const serverMessageSchema = z.discriminatedUnion("type", [
   serverEnvelope.extend({ type: z.literal("leaderboard.updated"), payload: z.object({ standings: standingsSchema }) }),
   serverEnvelope.extend({ type: z.literal("game.finished"), payload: z.object({ standings: standingsSchema }) }),
   serverEnvelope.extend({ type: z.literal("room.paused"), payload: z.object({ reason: z.string().min(1) }) }),
+  serverEnvelope.extend({
+    type: z.literal("player.welcome"),
+    payload: z.object({
+      playerId: z.string().min(1),
+      reconnectToken: z.string().min(1),
+      displayName: z.string().min(1),
+      avatarSeed: z.string().min(1),
+    }),
+  }),
   serverEnvelope.extend({ type: z.literal("error"), payload: z.object({ code: z.string().min(1), message: z.string().min(1) }) }),
 ]);
 

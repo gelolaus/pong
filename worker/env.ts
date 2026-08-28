@@ -6,4 +6,5 @@ export interface Env {
   AUTH_SECRET: string;
   TURSO_DATABASE_URL: string;
   TURSO_AUTH_TOKEN: string;
+  PONG_TEST_MODE?: string;
 }

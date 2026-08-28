@@ -109,6 +109,7 @@ describe("room protocol", () => {
       ["leaderboard.updated", { standings: [] }],
       ["game.finished", { standings: [] }],
       ["room.paused", { reason: "Host disconnected" }],
+      ["player.welcome", { playerId: "player-1", reconnectToken: "token", displayName: "Alex", avatarSeed: "player-1" }],
       ["error", { code: "ANSWER_CLOSED", message: "Answers are closed." }],
     ] as const;
 

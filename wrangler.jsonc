@@ -15,5 +15,8 @@
   "exports": {
     "PongRoom": { "type": "durable-object", "storage": "sqlite" }
   },
-  "observability": { "enabled": true }
+  "observability": { "enabled": true },
+  "vars": {
+    "PONG_TEST_MODE": "0"
+  }
 }

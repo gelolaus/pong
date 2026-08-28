@@ -82,7 +82,8 @@ describe("Turso Pong repository", () => {
     const input = { id: "session-1", quizId: eventQuiz.id, roomCode: "123456", hostId: "host-1", createdAt: 1 };
 
     await repository.createSession(input);
-    await expect(repository.createSession({ ...input, id: "session-2" })).rejects.toMatchObject<PongRepositoryError>({ code: "conflict" });
+    const conflict: Pick<PongRepositoryError, "code"> = { code: "conflict" };
+    await expect(repository.createSession({ ...input, id: "session-2" })).rejects.toMatchObject(conflict);
   });
 
   it("retries one transient batch failure and writes each round answer once", async () => {

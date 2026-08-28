@@ -4,3 +4,5 @@ AUTH_SECRET=""
 TURSO_DATABASE_URL=""
 TURSO_AUTH_TOKEN=""
 PONG_TEST_MODE="0"
+# Google callback (local): http://localhost:5173/api/auth/google/callback
+

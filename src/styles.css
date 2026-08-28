@@ -95,6 +95,110 @@ button:active { box-shadow: 0 2px 0 var(--ink); transform: translateY(4px); }
   .join-card, .page-card { border-radius: 1.5rem; box-shadow: 7px 7px 0 var(--ink); }
 }
 
+.form-error, .status-banner { font-weight: 800; margin: 1rem 0 0; }
+.form-error { color: #9b2c2c; }
+.status-banner { background: var(--gold); border: 3px solid var(--ink); border-radius: 1rem; padding: .8rem 1rem; }
+
+.button-link, .answer-button, .host-actions button, .player-moderation button {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.button-link {
+  background: var(--coral);
+  border: 3px solid var(--ink);
+  border-radius: 1rem;
+  box-shadow: 0 6px 0 var(--ink);
+  color: var(--ink);
+  display: inline-block;
+  font-weight: 900;
+  margin-top: 1.5rem;
+  padding: .9rem 1.2rem;
+  text-decoration: none;
+}
+
+.game-card, .display-card, .host-card { max-width: 64rem; }
+.host-layout { display: grid; gap: 1.5rem; width: min(1100px, 100%); }
+@media (min-width: 900px) { .host-layout { grid-template-columns: 18rem 1fr; } }
+
+.room-code { font-variant-numeric: tabular-nums; letter-spacing: .12em; }
+.player-header { align-items: center; display: flex; gap: 1rem; }
+.quiz-list, .player-moderation, .leaderboard, .podium-rest { list-style: none; margin: 1.5rem 0 0; padding: 0; }
+.quiz-list li, .player-moderation li, .leaderboard-row, .podium-rest li {
+  align-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 1rem;
+  display: flex;
+  justify-content: space-between;
+  margin-top: .75rem;
+  padding: .8rem 1rem;
+}
+
+.answer-grid { display: grid; gap: .9rem; margin-top: 1.5rem; }
+@media (min-width: 700px) { .answer-grid { grid-template-columns: 1fr 1fr; } }
+.answer-button {
+  align-items: center;
+  border: 3px solid var(--ink);
+  border-radius: 1.25rem;
+  box-shadow: 0 7px 0 var(--ink);
+  display: flex;
+  font-size: 1.15rem;
+  gap: .8rem;
+  justify-content: flex-start;
+  margin-top: 0;
+  min-height: 64px;
+  padding: 1rem;
+  text-align: left;
+}
+.answer-sky { background: var(--sky); }
+.answer-gold { background: var(--gold); }
+.answer-leaf { background: var(--leaf); }
+.answer-coral { background: var(--coral); }
+.answer-number {
+  align-items: center;
+  background: #fffdf7;
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  display: inline-flex;
+  height: 2rem;
+  justify-content: center;
+  width: 2rem;
+}
+.question-prompt { font-size: clamp(1.8rem, 6vw, 3.4rem); font-weight: 900; margin: 1rem 0; }
+.question-image { border: 3px solid var(--ink); border-radius: 1.25rem; max-width: 100%; }
+.timer progress { accent-color: var(--coral); height: 1rem; width: 100%; }
+.lock-status { font-weight: 900; }
+
+.pong-avatar {
+  --avatar-hue: 12;
+  background: hsl(var(--avatar-hue) 80% 70%);
+  border: 3px solid var(--ink);
+  border-radius: 999px;
+  display: inline-grid;
+  height: 4rem;
+  place-items: center;
+  position: relative;
+  width: 4rem;
+}
+.pong-avatar-sm { height: 2.4rem; width: 2.4rem; }
+.pong-avatar-paddle, .pong-avatar-ball { background: #fffdf7; border: 2px solid var(--ink); position: absolute; }
+.pong-avatar-paddle { border-radius: 1rem; height: 1.6rem; transform: rotate(-25deg); width: .55rem; }
+.pong-avatar-ball { border-radius: 999px; height: .8rem; right: .45rem; top: .45rem; width: .8rem; }
+
+.podium-places { align-items: end; display: grid; gap: 1rem; grid-template-columns: 1fr 1.2fr 1fr; margin-top: 2rem; }
+.podium-place { background: #fffdf7; border: 3px solid var(--ink); border-radius: 1.5rem; padding: 1rem; text-align: center; }
+.place-1 { min-height: 12rem; }
+.place-2 { min-height: 9rem; }
+.place-3 { min-height: 7rem; }
+.podium-animated .is-first { animation: bounce .6s ease; }
+.sr-only { clip: rect(0 0 0 0); clip-path: inset(50%); height: 1px; overflow: hidden; position: absolute; white-space: nowrap; width: 1px; }
+
+@keyframes bounce {
+  from { transform: translateY(1rem); }
+  to { transform: translateY(0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .podium-animated .is-first { animation: none; }
 }

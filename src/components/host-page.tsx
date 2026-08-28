@@ -8,13 +8,24 @@ export function HostPage() {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    let cancelled = false;
     fetchSession()
-      .then((session) => {
+      .then(async (session) => {
+        if (cancelled) return;
         setEmail(session.email);
-        return fetchQuizzes();
+        try {
+          const result = await fetchQuizzes();
+          if (!cancelled) setQuizzes(result.quizzes);
+        } catch {
+          if (!cancelled) setError("Could not load quizzes.");
+        }
       })
-      .then((result) => setQuizzes(result.quizzes))
-      .catch(() => setEmail(null));
+      .catch(() => {
+        if (!cancelled) setEmail(null);
+      });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   if (!email) {

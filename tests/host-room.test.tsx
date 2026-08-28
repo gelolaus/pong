@@ -33,6 +33,7 @@ describe("HostRoom", () => {
     const onCommand = vi.fn();
     render(<HostRoom roomCode="123456" snapshot={snapshot("lobby")} qrDataUrl="data:image/png;base64,abc" onCommand={onCommand} />);
     expect(screen.getByRole("heading", { name: "123456" })).toBeVisible();
+    expect(screen.getByRole("link", { name: /open projector/i })).toHaveAttribute("href", "/display/123456");
     expect(screen.getByRole("img", { name: /qr code/i })).toBeVisible();
     expect(screen.getByRole("status")).toHaveTextContent(/1 connected, 0 away/i);
     await user.click(screen.getByRole("button", { name: /lock joins/i }));

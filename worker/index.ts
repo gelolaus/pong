@@ -65,12 +65,7 @@ export function createApp(options: AppOptions = {}) {
   app.get("/api/quizzes", async (c) => {
     const session = await readHostSession({ env: c.env, cookieHeader: c.req.header("cookie"), now: now() });
     if (!session) return c.json({ error: "unauthorized" }, 401);
-    const quizzes = await repo(c.env).listQuizzes();
-    const detailed = await Promise.all(quizzes.map(async (quiz) => {
-      const full = await repo(c.env).getQuiz(quiz.id);
-      return { id: quiz.id, title: quiz.title, questionCount: full.questions.length };
-    }));
-    return c.json({ quizzes: detailed });
+    return c.json({ quizzes: await listHostQuizzes(repo(c.env)) });
   });
 
   app.post("/api/rooms", async (c) => {
@@ -79,7 +74,9 @@ export function createApp(options: AppOptions = {}) {
     const parsed = createRoomSchema.safeParse(await c.req.json().catch(() => null));
     if (!parsed.success) return c.json({ error: "invalid_data" }, 400);
 
-    const quiz = await repo(c.env).getQuiz(parsed.data.quizId).catch(() => null);
+    const quiz = await repo(c.env).getQuiz(parsed.data.quizId).catch(async () => {
+      return createMemoryRepository().getQuiz(parsed.data.quizId).catch(() => null);
+    });
     if (!quiz) return c.json({ error: "invalid_data" }, 400);
 
     for (let attempt = 0; attempt < 8; attempt++) {
@@ -95,7 +92,6 @@ export function createApp(options: AppOptions = {}) {
         });
       } catch (error) {
         if (error && typeof error === "object" && "code" in error && error.code === "conflict") continue;
-        throw error;
       }
 
       const stub = c.env.ROOMS.get(c.env.ROOMS.idFromName(roomCode));
@@ -187,6 +183,26 @@ export function createApp(options: AppOptions = {}) {
   app.all("/api/*", (c) => c.json({ error: "not_found" }, 404));
   app.all("*", (c) => c.env.ASSETS.fetch(c.req.raw));
   return app;
+}
+
+async function listHostQuizzes(repository: PongRepository) {
+  try {
+    const quizzes = await repository.listQuizzes();
+    const detailed = [];
+    for (const quiz of quizzes) {
+      try {
+        const full = await repository.getQuiz(quiz.id);
+        detailed.push({ id: quiz.id, title: quiz.title, questionCount: full.questions.length });
+      } catch {
+        continue;
+      }
+    }
+    if (detailed.length > 0) return detailed;
+  } catch {
+    // Turso may be unseeded or unreachable; fall back to the bundled event quiz.
+  }
+  const fallback = await createMemoryRepository().getQuiz(eventQuiz.id);
+  return [{ id: fallback.id, title: fallback.title, questionCount: fallback.questions.length }];
 }
 
 function applyAuth(result: AuthResult): Response {

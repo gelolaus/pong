@@ -104,6 +104,7 @@ export function HostRoomView({
           <p className="eyebrow">Room code</p>
           <h1 className="room-code">{snapshot.roomCode}</h1>
           {qrDataUrl ? <img src={qrDataUrl} alt={`QR code to join room ${snapshot.roomCode}`} width={180} height={180} /> : null}
+          <a className="button-link" href={`/display/${snapshot.roomCode}`} target="_blank" rel="noreferrer">Open projector</a>
           <p role="status">{connected} connected, {away} away</p>
           {snapshot.state === "lobby" ? (
             <button type="button" aria-pressed={snapshot.joinLocked} onClick={() => onCommand("host.lock_joining", { locked: !snapshot.joinLocked })}>

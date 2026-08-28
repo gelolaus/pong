@@ -1,0 +1,100 @@
+:root {
+  --cream: #fff7e6;
+  --ink: #1e2433;
+  --coral: #f4675b;
+  --sky: #75cce8;
+  --gold: #f6c445;
+  --leaf: #5ca970;
+  color: var(--ink);
+  background: var(--cream);
+  font-family: "Arial Rounded MT Bold", "Nunito", system-ui, sans-serif;
+  font-synthesis: none;
+}
+
+* { box-sizing: border-box; }
+
+body { margin: 0; min-width: 320px; min-height: 100vh; }
+
+button, input { font: inherit; }
+
+button:focus-visible, input:focus-visible {
+  outline: 4px solid var(--sky);
+  outline-offset: 3px;
+}
+
+.court-shell {
+  align-items: center;
+  background:
+    radial-gradient(circle at 12% 18%, var(--sky) 0 8%, transparent 8.4%),
+    radial-gradient(circle at 88% 82%, var(--gold) 0 9%, transparent 9.4%),
+    var(--cream);
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  padding: clamp(1.5rem, 6vw, 5rem);
+}
+
+.join-card, .page-card {
+  background: #fffdf7;
+  border: 3px solid var(--ink);
+  border-radius: 2rem;
+  box-shadow: 10px 10px 0 var(--ink);
+  max-width: 36rem;
+  padding: clamp(2rem, 6vw, 4rem);
+  width: 100%;
+}
+
+.eyebrow {
+  color: var(--coral);
+  font-size: .8rem;
+  font-weight: 900;
+  letter-spacing: .15em;
+  margin: 0 0 .6rem;
+  text-transform: uppercase;
+}
+
+h1 { font-size: clamp(2.8rem, 10vw, 5.6rem); letter-spacing: -.06em; line-height: .88; margin: 0; }
+
+.join-copy, .page-card > p:last-child { font-family: system-ui, sans-serif; font-size: 1.05rem; line-height: 1.55; margin: 1.4rem 0 0; }
+
+.join-form { display: grid; gap: .65rem; margin-top: 2rem; }
+
+label { font-size: .9rem; font-weight: 900; }
+
+.answer-depth { border-radius: 1rem; box-shadow: 0 7px 0 var(--ink); }
+
+input {
+  appearance: none;
+  background: white;
+  border: 3px solid var(--ink);
+  border-radius: 1rem;
+  color: var(--ink);
+  font-size: 1.5rem;
+  font-weight: 900;
+  letter-spacing: .14em;
+  padding: .85rem 1rem;
+  width: 100%;
+}
+
+button {
+  background: var(--coral);
+  border: 3px solid var(--ink);
+  border-radius: 1rem;
+  box-shadow: 0 6px 0 var(--ink);
+  color: var(--ink);
+  cursor: pointer;
+  font-weight: 900;
+  margin-top: 1rem;
+  padding: .9rem 1rem;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+
+button:active { box-shadow: 0 2px 0 var(--ink); transform: translateY(4px); }
+
+@media (max-width: 420px) {
+  .join-card, .page-card { border-radius: 1.5rem; box-shadow: 7px 7px 0 var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+}

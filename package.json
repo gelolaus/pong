@@ -1,0 +1,46 @@
+{
+  "name": "pong",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "npm run build && vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "test:e2e": "playwright test",
+    "deploy": "npm run build && wrangler deploy",
+    "seed": "tsx scripts/seed-turso.ts",
+    "db:seed": "tsx scripts/seed-turso.ts",
+    "load": "node scripts/load-room.mjs"
+  },
+  "dependencies": {
+    "@tursodatabase/serverless": "^1.4.0",
+    "hono": "^4.13.5",
+    "jose": "^6.2.10",
+    "qrcode": "^1.5.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.54.1",
+    "@cloudflare/workers-types": "^5.20260828.1",
+    "@playwright/test": "^1.62.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.6",
+    "@types/qrcode": "^1.5.6",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.0.1",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2",
+    "vitest": "^4.1.11",
+    "wrangler": "^4.127.0"
+  }
+}
